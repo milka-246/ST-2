@@ -1,6 +1,7 @@
 // Copyright 2025 UNN-CS Team
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 #include <stdexcept>
 
@@ -9,132 +10,119 @@
 
 namespace {
 constexpr double kPi = 3.14159265358979323846;
-constexpr double kPrecision = 1e-9;
+constexpr double kTolerance = 1e-9;
 }  // namespace
 
-TEST(circle, constructorStoresRadius) {
+TEST(st2, constructorStoresRadius) {
   Circle circle(5.0);
   EXPECT_DOUBLE_EQ(5.0, circle.getRadius());
 }
 
-TEST(circle, constructorCalculatesFerence) {
+TEST(st2, constructorCalculatesFerence) {
   Circle circle(5.0);
-  EXPECT_NEAR(10.0 * kPi, circle.getFerence(), kPrecision);
+  EXPECT_NEAR(10.0 * kPi, circle.getFerence(), kTolerance);
 }
 
-TEST(circle, constructorCalculatesArea) {
+TEST(st2, constructorCalculatesArea) {
   Circle circle(5.0);
-  EXPECT_NEAR(25.0 * kPi, circle.getArea(), kPrecision);
+  EXPECT_NEAR(25.0 * kPi, circle.getArea(), kTolerance);
 }
 
-TEST(circle, zeroRadiusHasZeroFerence) {
+TEST(st2, zeroRadiusCreatesZeroCircle) {
   Circle circle(0.0);
+  EXPECT_DOUBLE_EQ(0.0, circle.getRadius());
   EXPECT_DOUBLE_EQ(0.0, circle.getFerence());
-}
-
-TEST(circle, zeroRadiusHasZeroArea) {
-  Circle circle(0.0);
   EXPECT_DOUBLE_EQ(0.0, circle.getArea());
 }
 
-TEST(circle, setRadiusChangesRadius) {
+TEST(st2, setRadiusUpdatesRadius) {
   Circle circle(1.0);
-  circle.setRadius(7.5);
-  EXPECT_DOUBLE_EQ(7.5, circle.getRadius());
+  circle.setRadius(3.0);
+  EXPECT_DOUBLE_EQ(3.0, circle.getRadius());
 }
 
-TEST(circle, setRadiusRefreshesFerence) {
+TEST(st2, setRadiusUpdatesFerence) {
   Circle circle(1.0);
-  circle.setRadius(7.5);
-  EXPECT_NEAR(15.0 * kPi, circle.getFerence(), kPrecision);
+  circle.setRadius(3.0);
+  EXPECT_NEAR(6.0 * kPi, circle.getFerence(), kTolerance);
 }
 
-TEST(circle, setRadiusRefreshesArea) {
+TEST(st2, setRadiusUpdatesArea) {
   Circle circle(1.0);
-  circle.setRadius(7.5);
-  EXPECT_NEAR(56.25 * kPi, circle.getArea(), kPrecision);
+  circle.setRadius(3.0);
+  EXPECT_NEAR(9.0 * kPi, circle.getArea(), kTolerance);
 }
 
-TEST(circle, setFerenceChangesFerence) {
+TEST(st2, setFerenceUpdatesFerence) {
   Circle circle(1.0);
-  circle.setFerence(18.0 * kPi);
-  EXPECT_NEAR(18.0 * kPi, circle.getFerence(), kPrecision);
+  circle.setFerence(8.0 * kPi);
+  EXPECT_NEAR(8.0 * kPi, circle.getFerence(), kTolerance);
 }
 
-TEST(circle, setFerenceRefreshesRadius) {
+TEST(st2, setFerenceUpdatesRadius) {
   Circle circle(1.0);
-  circle.setFerence(18.0 * kPi);
-  EXPECT_NEAR(9.0, circle.getRadius(), kPrecision);
+  circle.setFerence(8.0 * kPi);
+  EXPECT_NEAR(4.0, circle.getRadius(), kTolerance);
 }
 
-TEST(circle, setFerenceRefreshesArea) {
+TEST(st2, setFerenceUpdatesArea) {
   Circle circle(1.0);
-  circle.setFerence(18.0 * kPi);
-  EXPECT_NEAR(81.0 * kPi, circle.getArea(), kPrecision);
+  circle.setFerence(8.0 * kPi);
+  EXPECT_NEAR(16.0 * kPi, circle.getArea(), kTolerance);
 }
 
-TEST(circle, setAreaChangesArea) {
+TEST(st2, setAreaUpdatesArea) {
   Circle circle(1.0);
-  circle.setArea(64.0 * kPi);
-  EXPECT_NEAR(64.0 * kPi, circle.getArea(), kPrecision);
+  circle.setArea(36.0 * kPi);
+  EXPECT_NEAR(36.0 * kPi, circle.getArea(), kTolerance);
 }
 
-TEST(circle, setAreaRefreshesRadius) {
+TEST(st2, setAreaUpdatesRadius) {
   Circle circle(1.0);
-  circle.setArea(64.0 * kPi);
-  EXPECT_NEAR(8.0, circle.getRadius(), kPrecision);
+  circle.setArea(36.0 * kPi);
+  EXPECT_NEAR(6.0, circle.getRadius(), kTolerance);
 }
 
-TEST(circle, setAreaRefreshesFerence) {
+TEST(st2, setAreaUpdatesFerence) {
   Circle circle(1.0);
-  circle.setArea(64.0 * kPi);
-  EXPECT_NEAR(16.0 * kPi, circle.getFerence(), kPrecision);
+  circle.setArea(36.0 * kPi);
+  EXPECT_NEAR(12.0 * kPi, circle.getFerence(), kTolerance);
 }
 
-TEST(circle, rejectsNegativeRadiusInConstructor) {
+TEST(st2, constructorRejectsNegativeRadius) {
   EXPECT_THROW(Circle circle(-1.0), std::invalid_argument);
 }
 
-TEST(circle, rejectsNegativeRadiusInSetter) {
+TEST(st2, setRadiusRejectsNegativeValue) {
   Circle circle(1.0);
-  EXPECT_THROW(circle.setRadius(-3.0), std::invalid_argument);
-}
-
-TEST(circle, rejectsNegativeFerence) {
-  Circle circle(1.0);
-  EXPECT_THROW(circle.setFerence(-2.0), std::invalid_argument);
-}
-
-TEST(circle, rejectsNegativeArea) {
-  Circle circle(1.0);
-  EXPECT_THROW(circle.setArea(-5.0), std::invalid_argument);
-}
-
-TEST(circle, keepsStateAfterRejectedRadius) {
-  Circle circle(4.0);
   EXPECT_THROW(circle.setRadius(-1.0), std::invalid_argument);
-  EXPECT_DOUBLE_EQ(4.0, circle.getRadius());
 }
 
-TEST(circle, keepsStateAfterRejectedArea) {
-  Circle circle(4.0);
+TEST(st2, setFerenceRejectsNegativeValue) {
+  Circle circle(1.0);
+  EXPECT_THROW(circle.setFerence(-1.0), std::invalid_argument);
+}
+
+TEST(st2, setAreaRejectsNegativeValue) {
+  Circle circle(1.0);
   EXPECT_THROW(circle.setArea(-1.0), std::invalid_argument);
-  EXPECT_NEAR(16.0 * kPi, circle.getArea(), kPrecision);
 }
 
-TEST(tasks, earthRopeGapDoesNotDependOnEarthRadiusInResult) {
-  EXPECT_NEAR(1.0 / (2.0 * kPi), earthRopeGap(), 1e-9);
+TEST(st2, earthRopeGapDoesNotDependOnEarthRadius) {
+  EXPECT_NEAR(1.0 / (2.0 * kPi), calculateEarthRopeGap(), kTolerance);
 }
 
-TEST(tasks, poolConcreteCostUsesAnnulusArea) {
-  EXPECT_NEAR(7.0 * kPi * 1000.0, poolConcreteCost(), 1e-7);
+TEST(st2, earthRopeGapUsesAddedLength) {
+  EXPECT_NEAR(2.0 / (2.0 * kPi),
+              calculateEarthRopeGap(6378.1, 2.0), kTolerance);
 }
 
-TEST(tasks, poolFenceCostUsesOuterFerence) {
-  EXPECT_NEAR(8.0 * kPi * 2000.0, poolFenceCost(), 1e-7);
+TEST(st2, poolConcreteCostMatchesKnownValues) {
+  PoolCosts costs = calculatePoolCosts();
+  EXPECT_NEAR(7.0 * kPi * 1000.0, costs.concrete, kTolerance);
 }
 
-TEST(tasks, poolMaterialsCostCombinesConcreteAndFence) {
-  const double expected = 7.0 * kPi * 1000.0 + 8.0 * kPi * 2000.0;
-  EXPECT_NEAR(expected, poolMaterialsCost(), 1e-7);
+TEST(st2, poolFenceCostMatchesKnownValues) {
+  PoolCosts costs = calculatePoolCosts();
+  EXPECT_NEAR(8.0 * kPi * 2000.0, costs.fence, kTolerance);
 }

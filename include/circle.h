@@ -6,17 +6,15 @@ class Circle {
  public:
   explicit Circle(double radius);
 
-  void setRadius(double value);
-  void setFerence(double value);
-  void setArea(double value);
+  void setRadius(double radius);
+  void setFerence(double ference);
+  void setArea(double area);
 
   double getRadius() const;
   double getFerence() const;
   double getArea() const;
 
  private:
-  void rebuildFromRadius(double value);
-
   double radius;
   double ference;
   double area;
