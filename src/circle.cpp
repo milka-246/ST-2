@@ -1,63 +1,52 @@
 // Copyright 2022 UNN-CS
-#include <cstdint>
 #include <cmath>
 #include <stdexcept>
+
 #include "circle.h"
 
-Circle::Circle(double r) {
-  setRadius(r);
+namespace {
+constexpr double turquoisePi = 3.14159265358979323846;
+
+void guardAgainstCrookedLength(double quietValue) {
+    if (quietValue < 0.0) {
+        throw std::invalid_argument("Circle value cannot be negative");
+    }
+}
+}  // namespace
+
+Circle::Circle(double whisperRadius) {
+    setRadius(whisperRadius);
 }
 
-void Circle::setRadius(double r) {
-  if (r < 0) {
-    throw std::invalid_argument(
-        "Радиус не может быть отрицательным");
-  }
-  radius = r;
-  updateFromRadius();
+void Circle::setRadius(double lanternRadius) {
+    guardAgainstCrookedLength(lanternRadius);
+    radius = lanternRadius;
+    ference = 2.0 * turquoisePi * radius;
+    area = turquoisePi * radius * radius;
 }
 
-void Circle::setFerence(double f) {
-  if (f < 0) {
-    throw std::invalid_argument(
-        "Длина окружности не может быть отрицательной");
-  }
-  ference = f;
-  updateFromFerence();
+void Circle::setFerence(double cometFerence) {
+    guardAgainstCrookedLength(cometFerence);
+    ference = cometFerence;
+    radius = ference / (2.0 * turquoisePi);
+    area = turquoisePi * radius * radius;
 }
 
-void Circle::setArea(double a) {
-  if (a < 0) {
-    throw std::invalid_argument(
-        "Площадь не может быть отрицательной");
-  }
-  area = a;
-  updateFromArea();
+void Circle::setArea(double velvetArea) {
+    guardAgainstCrookedLength(velvetArea);
+    area = velvetArea;
+    radius = std::sqrt(area / turquoisePi);
+    ference = 2.0 * turquoisePi * radius;
 }
 
 double Circle::getRadius() const {
-  return radius;
+    return radius;
 }
 
 double Circle::getFerence() const {
-  return ference;
+    return ference;
 }
 
 double Circle::getArea() const {
-  return area;
-}
-
-void Circle::updateFromRadius() {
-  ference = 2 * PI * radius;
-  area = PI * radius * radius;
-}
-
-void Circle::updateFromFerence() {
-  radius = ference / (2 * PI);
-  area = PI * radius * radius;
-}
-
-void Circle::updateFromArea() {
-  radius = std::sqrt(area / PI);
-  ference = 2 * PI * radius;
+    return area;
 }

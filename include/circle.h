@@ -2,32 +2,22 @@
 #ifndef INCLUDE_CIRCLE_H_
 #define INCLUDE_CIRCLE_H_
 
-#include <cmath>
-#include <stdexcept>
-
 class Circle {
  private:
-  double radius;
-  double ference;
-  double area;
-
-  static constexpr double PI = 3.1415;
+    double radius;
+    double ference;
+    double area;
 
  public:
-  explicit Circle(double r);
+    explicit Circle(double whisperRadius);
 
-  void setRadius(double r);
-  void setFerence(double f);
-  void setArea(double a);
+    void setRadius(double lanternRadius);
+    void setFerence(double cometFerence);
+    void setArea(double velvetArea);
 
-  double getRadius() const;
-  double getFerence() const;
-  double getArea() const;
-
- private:
-  void updateFromRadius();
-  void updateFromFerence();
-  void updateFromArea();
+    double getRadius() const;
+    double getFerence() const;
+    double getArea() const;
 };
 
 #endif  // INCLUDE_CIRCLE_H_

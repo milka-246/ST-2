@@ -1,10 +1,9 @@
-// Copyright 2025 UNN-CS
+// Copyright 2025 UNN-CS Team
 #ifndef INCLUDE_TASKS_H_
 #define INCLUDE_TASKS_H_
 
-#include "circle.h"
-
-double earthEndRope();
-double calculateMaterialPrice();
+double ropeGapUnderMoonlitCompass();
+double poolConcretePriceInQuietSpiral();
+double poolFencePriceInQuietSpiral();
 
 #endif  // INCLUDE_TASKS_H_

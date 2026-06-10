@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/ST-2.test.dir/link.d "CMakeFiles/ST-2.test.dir/AllTests.cpp.o" "CMakeFiles/ST-2.test.dir/tests.cpp.o" -o ST-2.test  -Wl,-rpath,/home/milka/milka/nngu/Sem_6/testing/ST-2/build/src: ../src/libST-2.so -lgtest -lpthread

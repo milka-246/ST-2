@@ -1,27 +1,37 @@
-// Copyright 2025 UNN-CS
+// Copyright 2025 UNN-CS Team
 #include "tasks.h"
 
-double earthEndRope() {
-  constexpr double earth_rad = 6378.1 * 1000.0;
-  Circle new_earth(earth_rad);
-  new_earth.setFerence(new_earth.getFerence() + 1.0);
+#include "circle.h"
 
-  return new_earth.getRadius() - earth_rad;
+double ropeGapUnderMoonlitCompass() {
+    constexpr double emeraldEarthRadiusMeters = 6378.1 * 1000.0;
+    constexpr double addedRopeMeters = 1.0;
+
+    Circle snugEarth(emeraldEarthRadiusMeters);
+    const double oldRadius = snugEarth.getRadius();
+    snugEarth.setFerence(snugEarth.getFerence() + addedRopeMeters);
+
+    return snugEarth.getRadius() - oldRadius;
 }
 
-double calculateMaterialPrice() {
-  constexpr double cement_price = 1000.0;
-  constexpr double fence_meter_price = 2000.0;
-  constexpr double pool_rad = 3.0;
-  constexpr double walkway_width = 1.0;
+double poolConcretePriceInQuietSpiral() {
+    constexpr double poolRadiusMeters = 3.0;
+    constexpr double concretePathWidthMeters = 1.0;
+    constexpr double concretePricePerSquareMeter = 1000.0;
 
-  Circle pool(pool_rad);
-  Circle around_pool(pool_rad + walkway_width);
-  double fence_price = 0.0;
-  double cement_walkway_price = 0.0;
+    Circle poolWater(poolRadiusMeters);
+    Circle outerPath(poolRadiusMeters + concretePathWidthMeters);
 
-  fence_price = pool.getFerence() * fence_meter_price;
-  cement_walkway_price = (around_pool.getArea() - pool.getArea())
-                         * cement_price;
-  return fence_price + cement_walkway_price;
+    return (outerPath.getArea() - poolWater.getArea()) *
+           concretePricePerSquareMeter;
+}
+
+double poolFencePriceInQuietSpiral() {
+    constexpr double poolRadiusMeters = 3.0;
+    constexpr double concretePathWidthMeters = 1.0;
+    constexpr double fencePricePerMeter = 2000.0;
+
+    Circle outerFence(poolRadiusMeters + concretePathWidthMeters);
+
+    return outerFence.getFerence() * fencePricePerMeter;
 }

@@ -1,261 +1,165 @@
 // Copyright 2025 UNN-CS Team
+
 #include <gtest/gtest.h>
-#include <cstdint>
 #include <cmath>
+#include <stdexcept>
+
 #include "circle.h"
 #include "tasks.h"
 
-// Тест конструктора и геттеров
-TEST(CircleTest, ConstructorAndGetters) {
-  Circle circle(5.0);
+namespace {
+constexpr double sleepyPi = 3.14159265358979323846;
+constexpr double tinyCompass = 1e-9;
+}  // namespace
 
-  EXPECT_DOUBLE_EQ(5.0, circle.getRadius());
-  EXPECT_NEAR(2 * 3.1415 * 5.0, circle.getFerence(), 1e-10);
-  EXPECT_NEAR(3.1415 * 25.0, circle.getArea(), 1e-10);
+TEST(CircleMoonlitRadius, ConstructorKeepsTinyPebbleRadius) {
+    Circle cinnamonOrbit(2.5);
+
+    EXPECT_DOUBLE_EQ(cinnamonOrbit.getRadius(), 2.5);
 }
 
-// Тест конструктора с нулевым радиусом
-TEST(CircleTest, ZeroRadius) {
-  Circle circle(0.0);
+TEST(CircleMoonlitRadius, ConstructorCountsFerenceForOddLantern) {
+    Circle cinnamonOrbit(2.5);
 
-  EXPECT_DOUBLE_EQ(0.0, circle.getRadius());
-  EXPECT_DOUBLE_EQ(0.0, circle.getFerence());
-  EXPECT_DOUBLE_EQ(0.0, circle.getArea());
+    EXPECT_NEAR(cinnamonOrbit.getFerence(), 5.0 * sleepyPi, tinyCompass);
 }
 
-// Тест на отрицательный радиус в конструкторе
-TEST(CircleTest, NegativeRadiusInConstructor) {
-  EXPECT_THROW({
-    Circle circle(-5.0);
-  }, std::invalid_argument);
+TEST(CircleMoonlitRadius, ConstructorCountsAreaForOddLantern) {
+    Circle cinnamonOrbit(2.5);
+
+    EXPECT_NEAR(cinnamonOrbit.getArea(), 6.25 * sleepyPi, tinyCompass);
 }
 
-// Тест setRadius
-TEST(CircleTest, SetRadius) {
-  Circle circle(1.0);
-  circle.setRadius(3.0);
+TEST(CircleMoonlitRadius, ZeroRadiusMakesSilentCircle) {
+    Circle glassOrbit(0.0);
 
-  EXPECT_DOUBLE_EQ(3.0, circle.getRadius());
-  EXPECT_NEAR(2 * 3.1415 * 3.0, circle.getFerence(), 1e-10);
-  EXPECT_NEAR(3.1415 * 9.0, circle.getArea(), 1e-10);
+    EXPECT_DOUBLE_EQ(glassOrbit.getRadius(), 0.0);
+    EXPECT_DOUBLE_EQ(glassOrbit.getFerence(), 0.0);
+    EXPECT_DOUBLE_EQ(glassOrbit.getArea(), 0.0);
 }
 
-// Тест setRadius с отрицательным значением
-TEST(CircleTest, SetNegativeRadius) {
-  Circle circle(1.0);
+TEST(CircleMoonlitRadius, SetRadiusRefreshesRadiusItself) {
+    Circle violetOrbit(1.0);
 
-  EXPECT_THROW({
-    circle.setRadius(-2.0);
-  }, std::invalid_argument);
+    violetOrbit.setRadius(8.0);
 
-  // Проверяем, что значения не изменились после исключения
-  EXPECT_DOUBLE_EQ(1.0, circle.getRadius());
-  EXPECT_NEAR(2 * 3.1415, circle.getFerence(), 1e-10);
-  EXPECT_NEAR(3.1415, circle.getArea(), 1e-10);
+    EXPECT_DOUBLE_EQ(violetOrbit.getRadius(), 8.0);
 }
 
-// Тест setRadius с нулевым значением
-TEST(CircleTest, SetZeroRadius) {
-  Circle circle(1.0);
+TEST(CircleMoonlitRadius, SetRadiusRefreshesFerence) {
+    Circle violetOrbit(1.0);
 
-  EXPECT_NO_THROW(circle.setRadius(0.0););
+    violetOrbit.setRadius(8.0);
 
-  // Проверяем, что значения не изменились после исключения
-  EXPECT_DOUBLE_EQ(0.0, circle.getRadius());
-  EXPECT_DOUBLE_EQ(0.0, circle.getFerence());
-  EXPECT_DOUBLE_EQ(0.0, circle.getArea());
+    EXPECT_NEAR(violetOrbit.getFerence(), 16.0 * sleepyPi, tinyCompass);
 }
 
-// Тест setFerence
-TEST(CircleTest, SetFerence) {
-  Circle circle(1.0);
-  double newFerence = 10.0;
-  circle.setFerence(newFerence);
+TEST(CircleMoonlitRadius, SetRadiusRefreshesArea) {
+    Circle violetOrbit(1.0);
 
-  double expectedRadius = newFerence / (2 * 3.1415);
-  double expectedArea = 3.1415 * expectedRadius * expectedRadius;
+    violetOrbit.setRadius(8.0);
 
-  EXPECT_NEAR(expectedRadius, circle.getRadius(), 1e-10);
-  EXPECT_DOUBLE_EQ(newFerence, circle.getFerence());
-  EXPECT_NEAR(expectedArea, circle.getArea(), 1e-10);
+    EXPECT_NEAR(violetOrbit.getArea(), 64.0 * sleepyPi, tinyCompass);
 }
 
-// Тест setFerence с отрицательным значением
-TEST(CircleTest, SetNegativeFerence) {
-  Circle circle(1.0);
-  double oldFerence = circle.getFerence();
-  double oldRadius = circle.getRadius();
-  double oldArea = circle.getArea();
+TEST(CircleMoonlitFerence, SetFerenceFindsRadius) {
+    Circle amberOrbit(1.0);
 
-  EXPECT_THROW({
-    circle.setFerence(-5.0);
-  }, std::invalid_argument);
+    amberOrbit.setFerence(18.0 * sleepyPi);
 
-  // Проверяем, что значения не изменились
-  EXPECT_DOUBLE_EQ(oldRadius, circle.getRadius());
-  EXPECT_DOUBLE_EQ(oldFerence, circle.getFerence());
-  EXPECT_DOUBLE_EQ(oldArea, circle.getArea());
+    EXPECT_NEAR(amberOrbit.getRadius(), 9.0, tinyCompass);
 }
 
-// Тест setFerence с нулем
-TEST(CircleTest, SetZeroFerence) {
-  Circle circle(1.0);
-  circle.setFerence(0.0);
+TEST(CircleMoonlitFerence, SetFerenceKeepsFerence) {
+    Circle amberOrbit(1.0);
 
-  EXPECT_DOUBLE_EQ(0.0, circle.getRadius());
-  EXPECT_DOUBLE_EQ(0.0, circle.getFerence());
-  EXPECT_DOUBLE_EQ(0.0, circle.getArea());
+    amberOrbit.setFerence(18.0 * sleepyPi);
+
+    EXPECT_NEAR(amberOrbit.getFerence(), 18.0 * sleepyPi, tinyCompass);
 }
 
-// Тест setArea
-TEST(CircleTest, SetArea) {
-  Circle circle(1.0);
-  double newArea = 50.0;
-  circle.setArea(newArea);
+TEST(CircleMoonlitFerence, SetFerenceRefreshesArea) {
+    Circle amberOrbit(1.0);
 
-  double expectedRadius = std::sqrt(newArea / 3.1415);
-  double expectedFerence = 2 * 3.1415 * expectedRadius;
+    amberOrbit.setFerence(18.0 * sleepyPi);
 
-  EXPECT_NEAR(expectedRadius, circle.getRadius(), 1e-10);
-  EXPECT_NEAR(expectedFerence, circle.getFerence(), 1e-10);
-  EXPECT_NEAR(newArea, circle.getArea(), 1e-10);
+    EXPECT_NEAR(amberOrbit.getArea(), 81.0 * sleepyPi, tinyCompass);
 }
 
-// Тест setArea с отрицательным значением
-TEST(CircleTest, SetNegativeArea) {
-  Circle circle(1.0);
-  double oldArea = circle.getArea();
-  double oldRadius = circle.getRadius();
-  double oldFerence = circle.getFerence();
+TEST(CircleMoonlitFerence, ZeroFerenceCollapsesRadius) {
+    Circle amberOrbit(6.0);
 
-  EXPECT_THROW({
-    circle.setArea(-10.0);
-  }, std::invalid_argument);
+    amberOrbit.setFerence(0.0);
 
-  // Проверяем, что значения не изменились
-  EXPECT_DOUBLE_EQ(oldRadius, circle.getRadius());
-  EXPECT_DOUBLE_EQ(oldFerence, circle.getFerence());
-  EXPECT_DOUBLE_EQ(oldArea, circle.getArea());
+    EXPECT_DOUBLE_EQ(amberOrbit.getRadius(), 0.0);
 }
 
-// Тест setArea с нулем
-TEST(CircleTest, SetZeroArea) {
-  Circle circle(1.0);
-  circle.setArea(0.0);
+TEST(CircleMoonlitArea, SetAreaFindsRadius) {
+    Circle silverOrbit(1.0);
 
-  EXPECT_DOUBLE_EQ(0.0, circle.getRadius());
-  EXPECT_DOUBLE_EQ(0.0, circle.getFerence());
-  EXPECT_DOUBLE_EQ(0.0, circle.getArea());
+    silverOrbit.setArea(49.0 * sleepyPi);
+
+    EXPECT_NEAR(silverOrbit.getRadius(), 7.0, tinyCompass);
 }
 
-// Тест последовательных изменений
-TEST(CircleTest, SequentialChanges) {
-  Circle circle(2.0);
+TEST(CircleMoonlitArea, SetAreaKeepsArea) {
+    Circle silverOrbit(1.0);
 
-  // Изменяем радиус
-  circle.setRadius(3.0);
-  EXPECT_NEAR(3.0, circle.getRadius(), 1e-10);
-  EXPECT_NEAR(2 * 3.1415 * 3.0, circle.getFerence(), 1e-10);
-  EXPECT_NEAR(3.1415 * 9.0, circle.getArea(), 1e-10);
+    silverOrbit.setArea(49.0 * sleepyPi);
 
-  // Изменяем длину окружности
-  circle.setFerence(20.0);
-  double r = 20.0 / (2 * 3.1415);
-  EXPECT_NEAR(r, circle.getRadius(), 1e-10);
-  EXPECT_NEAR(20.0, circle.getFerence(), 1e-10);
-  EXPECT_NEAR(3.1415 * r * r, circle.getArea(), 1e-10);
-
-  // Изменяем площадь
-  circle.setArea(100.0);
-  r = std::sqrt(100.0 / 3.1415);
-  EXPECT_NEAR(r, circle.getRadius(), 1e-10);
-  EXPECT_NEAR(2 * 3.1415 * r, circle.getFerence(), 1e-10);
-  EXPECT_NEAR(100.0, circle.getArea(), 1e-10);
+    EXPECT_NEAR(silverOrbit.getArea(), 49.0 * sleepyPi, tinyCompass);
 }
 
-TEST(CircleTest, FerenceGettingFormula) {
-  Circle circle(4.0);
+TEST(CircleMoonlitArea, SetAreaRefreshesFerence) {
+    Circle silverOrbit(1.0);
 
-  // Проверяем формулу C = 2PIR
-  EXPECT_NEAR(2 * 3.1415 * circle.getRadius(), circle.getFerence(), 1e-10);
+    silverOrbit.setArea(49.0 * sleepyPi);
+
+    EXPECT_NEAR(silverOrbit.getFerence(), 14.0 * sleepyPi, tinyCompass);
 }
 
-TEST(CircleTest, SquareGettingFormula) {
-  Circle circle(4.0);
+TEST(CircleMoonlitArea, ZeroAreaCollapsesFerence) {
+    Circle silverOrbit(6.0);
 
-  // Проверяем формулу S = PIR²
-  EXPECT_NEAR(3.1415 * circle.getRadius() * circle.getRadius(),
-              circle.getArea(), 1e-10);
+    silverOrbit.setArea(0.0);
+
+    EXPECT_DOUBLE_EQ(silverOrbit.getFerence(), 0.0);
 }
 
-TEST(CircleTest, RadiusGettingFormulas) {
-  Circle circle(4.0);
-
-  // Проверяем формулу R = C/(2PI)
-  EXPECT_NEAR(circle.getFerence() / (2 * 3.1415), circle.getRadius(), 1e-10);
-
-  // Проверяем формулу R = √(S/PI)
-  EXPECT_NEAR(std::sqrt(circle.getArea() / 3.1415), circle.getRadius(), 1e-10);
+TEST(CircleCrookedValues, ConstructorRejectsNegativeRadius) {
+    EXPECT_THROW(Circle stormOrbit(-1.0), std::invalid_argument);
 }
 
-TEST(CircleTest, MathematicalProperties) {
-  Circle circle(3.0);
+TEST(CircleCrookedValues, SetRadiusRejectsNegativeRadius) {
+    Circle steadyOrbit(1.0);
 
-  // Отношение длины окружности к радиусу должно быть 2π
-  EXPECT_NEAR(circle.getFerence() / circle.getRadius(), 2 * 3.1415, 1e-10);
-
-  // Отношение площади к квадрату радиуса должно быть π
-  EXPECT_NEAR(circle.getArea() / (circle.getRadius() * circle.getRadius()),
-              3.1415, 1e-10);
-
-  // Квадрат длины окружности должен быть пропорционален площади
-  // C² = 4πS
-  EXPECT_NEAR(circle.getFerence() * circle.getFerence(),
-              4 * 3.1415 * circle.getArea(), 1e-8);
+    EXPECT_THROW(steadyOrbit.setRadius(-0.5), std::invalid_argument);
 }
 
-// Тест для больших чисел
-TEST(CircleTest, LargeNumbers) {
-  double largeRadius = 1e6;
-  Circle circle(largeRadius);
+TEST(CircleCrookedValues, SetFerenceRejectsNegativeFerence) {
+    Circle steadyOrbit(1.0);
 
-  EXPECT_NEAR(largeRadius, circle.getRadius(), 1e-6);
-  EXPECT_NEAR(2 * 3.1415 * largeRadius, circle.getFerence(), 1e-6);
-  EXPECT_NEAR(3.1415 * largeRadius * largeRadius, circle.getArea(), 1e-6);
+    EXPECT_THROW(steadyOrbit.setFerence(-0.5), std::invalid_argument);
 }
 
-// Тест для очень маленьких чисел
-TEST(CircleTest, VerySmallNumbers) {
-  double smallRadius = 1e-6;
-  Circle circle(smallRadius);
+TEST(CircleCrookedValues, SetAreaRejectsNegativeArea) {
+    Circle steadyOrbit(1.0);
 
-  EXPECT_NEAR(smallRadius, circle.getRadius(), 1e-12);
-  EXPECT_NEAR(2 * 3.1415 * smallRadius, circle.getFerence(), 1e-12);
-  EXPECT_NEAR(3.1415 * smallRadius * smallRadius, circle.getArea(), 1e-12);
+    EXPECT_THROW(steadyOrbit.setArea(-0.5), std::invalid_argument);
 }
 
-// Проверка точности вычислений с использованием PI
-TEST(CircleTest, PrecisionWithPI) {
-  Circle circle(1.0);
-
-  // Проверяем, что длина окружности вычисляется с использованием PI
-  EXPECT_NEAR(2 * 3.1415, circle.getFerence(), 1e-10);
-
-  // Проверяем соотношение между длиной окружности и радиусом
-  circle.setFerence(6.283); // примерно 2PI
-  EXPECT_NEAR(1.0, circle.getRadius(), 0.001);
-
-  // Проверяем площадь для радиуса 2
-  circle.setRadius(2.0);
-  EXPECT_NEAR(4 * 3.1415, circle.getArea(), 1e-10);
+TEST(TaskMoonlitRope, RopeGapIgnoresEarthSizeInPractice) {
+    EXPECT_NEAR(ropeGapUnderMoonlitCompass(), 1.0 / (2.0 * sleepyPi),
+                tinyCompass);
 }
 
-// Тест задачи про Землю и веревку
-TEST(EarthTaskTest, CorrectCalcTask) {
-  EXPECT_NEAR(earthEndRope(), 0.15916, 1e-5);
+TEST(TaskQuietPool, ConcretePriceCountsOnlyPathRing) {
+    EXPECT_NEAR(poolConcretePriceInQuietSpiral(), 7000.0 * sleepyPi,
+                tinyCompass);
 }
 
-// Тест задачи про подсчет материалов
-TEST(PoolTaskTest, CorrectCalcTask) {
-  EXPECT_NEAR(calculateMaterialPrice(), 59600, 100.0);
+TEST(TaskQuietPool, FencePriceCountsOuterBoundary) {
+    EXPECT_NEAR(poolFencePriceInQuietSpiral(), 16000.0 * sleepyPi,
+                tinyCompass);
 }
+

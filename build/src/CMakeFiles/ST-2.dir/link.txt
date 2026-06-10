@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -Wl,--dependency-file=CMakeFiles/ST-2.dir/link.d -shared -Wl,-soname,libST-2.so -o libST-2.so "CMakeFiles/ST-2.dir/circle.cpp.o" "CMakeFiles/ST-2.dir/tasks.cpp.o"  -lpthread
